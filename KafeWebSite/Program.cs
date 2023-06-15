@@ -1,13 +1,23 @@
+using Application;
+using Infrastructure;
+using Infrastructure.Persistance;
+using Microsoft.AspNetCore.Identity;
+
 namespace KafeWebSite
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddApplication(builder.Configuration);
             builder.Services.AddControllersWithViews();
+            builder.Services.AddInfrastructure(builder.Configuration);
+           // builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
 
