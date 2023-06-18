@@ -13,10 +13,12 @@ namespace Application.UseCases.SpetialMenuss.Commands
     public class DeleteSpetialMenuCommandHandler : IRequestHandler<DeleteSpetialMenuCommand, bool>
     {
         private readonly IApplicationDbContext _applicationDbContext;
+        private readonly IDeleteImg _deleteImg;
 
-        public DeleteSpetialMenuCommandHandler(IApplicationDbContext applicationDbContext)
+        public DeleteSpetialMenuCommandHandler(IApplicationDbContext applicationDbContext, IDeleteImg deleteImg)
         {
             _applicationDbContext = applicationDbContext;
+            _deleteImg = deleteImg;
         }
 
         public async Task<bool> Handle(DeleteSpetialMenuCommand request, CancellationToken cancellationToken)
@@ -26,6 +28,12 @@ namespace Application.UseCases.SpetialMenuss.Commands
             {
                 throw new NotFoundException(nameof(BreakFasts), request.Id);
             }
+
+            if(spMenu.ImgFileName != null)
+            {
+                _deleteImg.Delete_Img(spMenu.ImgFileName);
+            }
+
             _applicationDbContext.SpecialMenus.Remove(spMenu);
             await _applicationDbContext.SaveChangesAsync();
             return true;

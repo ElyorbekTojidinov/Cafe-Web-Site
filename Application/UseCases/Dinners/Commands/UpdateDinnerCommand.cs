@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.UseCases.Dinners.Commands
 {
@@ -10,7 +11,8 @@ namespace Application.UseCases.Dinners.Commands
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Uri Img { get; set; }
+        public IFormFile ImgFile { get; set; }
+        public string ImgFileName { get; set; }
         public double Price { get; set; }
         public int Rewievs { get; set; }
         public string Quality { get; set; }
@@ -19,10 +21,11 @@ namespace Application.UseCases.Dinners.Commands
     public class UpdateDinnerCommandHandler : IRequestHandler<UpdateDinnerCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
-
-        public UpdateDinnerCommandHandler(IApplicationDbContext context)
+        private readonly ISaveImg _saveImg;
+        public UpdateDinnerCommandHandler(IApplicationDbContext context, ISaveImg saveImg)
         {
             _context = context;
+            _saveImg = saveImg;
         }
 
         public async Task<Guid> Handle(UpdateDinnerCommand request, CancellationToken cancellationToken)
@@ -33,8 +36,14 @@ namespace Application.UseCases.Dinners.Commands
                 throw new NotFoundException(nameof(Dinner), request.Id);
             }
 
+            string ImgSource = request.ImgFileName;
+            if (request.ImgFile != null)
+            {
+                ImgSource = _saveImg.SaveImage(request.ImgFile);
+            }
+
             breakFast.Name = request.Name;
-            breakFast.Img = request.Img;
+            breakFast.ImgFileName = ImgSource;
             breakFast.Price = request.Price;
             breakFast.Rewievs = request.Rewievs;
             breakFast.Quality = request.Quality;

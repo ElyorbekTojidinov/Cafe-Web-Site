@@ -12,7 +12,7 @@ namespace Domain.Entities
         public string Description { get; set; }
 
         [Column("img")]
-        public Uri Img { get; set; }
+        public string ImgFileName { get; set; }
 
         [Column("time")]
         public string Time { get; set; }

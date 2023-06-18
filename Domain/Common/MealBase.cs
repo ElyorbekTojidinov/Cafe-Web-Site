@@ -14,7 +14,7 @@ public class MealBase
 
     [Required]
     [Column("img")]
-    public Uri Img { get; set; }
+    public string ImgFileName { get; set; }
 
     [Required]
     [Column("price")]

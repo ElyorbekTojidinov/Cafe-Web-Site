@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.UseCases.SpetialMenuss.Commands
 {
@@ -9,7 +10,8 @@ namespace Application.UseCases.SpetialMenuss.Commands
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Uri Img { get; set; }
+        public IFormFile ImgFile { get; set; }
+        public string ImgFileName { get; set; }
         public string Type { get; set; }
         public double Price { get; set; }
         public int Rewievs { get; set; }
@@ -19,23 +21,31 @@ namespace Application.UseCases.SpetialMenuss.Commands
     public class UpdateSpetialMenuCommandHandler : IRequestHandler<UpdateSpetialMenuCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ISaveImg _saveImg;
 
-        public UpdateSpetialMenuCommandHandler(IApplicationDbContext context)
+        public UpdateSpetialMenuCommandHandler(IApplicationDbContext context, ISaveImg saveImg)
         {
             _context = context;
+            _saveImg = saveImg;
         }
 
         public async Task<Guid> Handle(UpdateSpetialMenuCommand request, CancellationToken cancellationToken)
         {
-            var breakFast = await _context.SpecialMenus.FindAsync(request.Id);
+            SpecialMenu? breakFast = await _context.SpecialMenus.FindAsync(request.Id);
             if (breakFast != null)
             {
                 throw new NotFoundException(nameof(SpecialMenu), request.Id);
             }
 
+            string ImgSource = request.ImgFileName;
+            if(request.ImgFile  != null)
+            {
+                ImgSource = _saveImg.SaveImage(request.ImgFile);
+            }
+
             breakFast.Id = request.Id;
             breakFast.Name = request.Name;
-            breakFast.Img = request.Img;
+            breakFast.ImgFileName = ImgSource;
             breakFast.Type = request.Type;
             breakFast.Price = request.Price;
             breakFast.Rewievs = request.Rewievs;
