@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.UseCases.NewsEvents.Commands
 {
@@ -10,7 +11,8 @@ namespace Application.UseCases.NewsEvents.Commands
     {
         public Guid Id { get; set; }
         public string Description { get; set; }
-        public Uri Img { get; set; }
+        public IFormFile ImgFile { get; set; }
+        public string ImgFileName { get; set; }
         public string Time { get; set; }
         public string Priority { get; set; }
     }
@@ -18,10 +20,11 @@ namespace Application.UseCases.NewsEvents.Commands
     public class UpdateNewsEventCommandHandler : IRequestHandler<UpdateNewsEventCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
-
-        public UpdateNewsEventCommandHandler(IApplicationDbContext context)
+        private readonly ISaveImg _saveImg;
+        public UpdateNewsEventCommandHandler(IApplicationDbContext context, ISaveImg saveImg)
         {
             _context = context;
+            _saveImg = saveImg;
         }
 
         public async Task<Guid> Handle(UpdateNewsEventCommand request, CancellationToken cancellationToken)
@@ -32,8 +35,13 @@ namespace Application.UseCases.NewsEvents.Commands
                 throw new NotFoundException(nameof(NewsEvent), request.Id);
             }
 
+            string ImgSource = request.ImgFileName;
+            if(request.ImgFile != null)
+            {
+                ImgSource = _saveImg.SaveImage(request.ImgFile);
+            }
             news.Id = news.Id;
-            news.Img = request.Img;
+            news.ImgFileName = ImgSource;
             news.Description = news.Description;
             news.Time = news.Time;
             news.Priority = request.Priority;

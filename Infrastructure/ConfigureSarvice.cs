@@ -12,7 +12,7 @@ namespace Infrastructure
         {
             services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("DbConnection"));
+                options.UseNpgsql(configuration.GetConnectionString("DbConnect"));
             });
 
             return services;

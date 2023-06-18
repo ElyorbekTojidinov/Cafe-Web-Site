@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
+
 namespace Infrastructure.Persistance
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>, IApplicationDbContext
@@ -13,10 +14,6 @@ namespace Infrastructure.Persistance
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-        public ApplicationDbContext()
-        {
-
-        }
         public DbSet<BreakFast> BreakFasts { get; set; }
         public DbSet<Dinner> Dinners { get; set; }
         public DbSet<Lunch> Lunchs { get; set; }
@@ -24,12 +21,7 @@ namespace Infrastructure.Persistance
         public DbSet<Reserve> Reserves { get; set; }
         public DbSet<SpecialMenu> SpecialMenus { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            base.OnModelCreating(modelBuilder);
-        }
+     
     }
         
 }
