@@ -68,7 +68,7 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Dinners",
+                name: "dinner",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -80,11 +80,11 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Dinners", x => x.id);
+                    table.PrimaryKey("PK_dinner", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lunchs",
+                name: "lunch",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -96,7 +96,7 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lunchs", x => x.id);
+                    table.PrimaryKey("PK_lunch", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +115,7 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reserves",
+                name: "reserve",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -129,7 +129,7 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reserves", x => x.id);
+                    table.PrimaryKey("PK_reserve", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,8 +195,8 @@ namespace Infrastructure.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<string>(type: "text", nullable: false)
                 },
@@ -240,8 +240,8 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -315,16 +315,16 @@ namespace Infrastructure.Migrations
                 name: "break_fast");
 
             migrationBuilder.DropTable(
-                name: "Dinners");
+                name: "dinner");
 
             migrationBuilder.DropTable(
-                name: "Lunchs");
+                name: "lunch");
 
             migrationBuilder.DropTable(
                 name: "news_event");
 
             migrationBuilder.DropTable(
-                name: "Reserves");
+                name: "reserve");
 
             migrationBuilder.DropTable(
                 name: "special_menus");

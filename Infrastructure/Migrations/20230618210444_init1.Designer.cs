@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230617145408_init1")]
+    [Migration("20230618210444_init1")]
     partial class init1
     {
         /// <inheritdoc />
@@ -32,7 +32,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Img")
+                    b.Property<string>("ImgFileName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("img");
@@ -67,7 +67,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Img")
+                    b.Property<string>("ImgFileName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("img");
@@ -92,7 +92,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dinners");
+                    b.ToTable("dinner");
                 });
 
             modelBuilder.Entity("Domain.Entities.Lunch", b =>
@@ -102,7 +102,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Img")
+                    b.Property<string>("ImgFileName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("img");
@@ -127,7 +127,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Lunchs");
+                    b.ToTable("lunch");
                 });
 
             modelBuilder.Entity("Domain.Entities.NewsEvent", b =>
@@ -142,7 +142,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
-                    b.Property<string>("Img")
+                    b.Property<string>("ImgFileName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("img");
@@ -205,7 +205,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reserves");
+                    b.ToTable("reserve");
                 });
 
             modelBuilder.Entity("Domain.Entities.SpecialMenu", b =>
@@ -215,7 +215,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Img")
+                    b.Property<string>("ImgFileName")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("img");
@@ -390,10 +390,12 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -430,10 +432,12 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");

@@ -3,7 +3,6 @@ using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
 
 namespace Application.UseCases.BreakFasts.Commands
 {
@@ -41,12 +40,13 @@ namespace Application.UseCases.BreakFasts.Commands
             {
                 imgSource = _saveImg.SaveImage(request.ImgFile);
             }
-
+            breakFast.Id = request.Id;
             breakFast.Name = request.Name;
             breakFast.ImgFileName = imgSource; 
             breakFast.Price = request.Price;
             breakFast.Rewievs = request.Rewievs;
             breakFast.Quality = request.Quality;
+
 
             await _context.SaveChangesAsync(cancellationToken);
 

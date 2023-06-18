@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Services;
 using Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,10 @@ namespace Infrastructure
             {
                 options.UseNpgsql(configuration.GetConnectionString("DbConnect"));
             });
+
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<IDeleteImg, DeleteImg>();
+            services.AddScoped<ISaveImg, SaveImgs>();
 
             return services;
 

@@ -25,15 +25,17 @@ namespace Application.UseCases.Dinners.Commands
 
         public async Task<bool> Handle(DeleteDinnerCommand request, CancellationToken cancellationToken)
         {
-            var breakFast = await _applicationDbContext.Dinners.FindAsync(request.Id);
+           Dinner breakFast = await _applicationDbContext.Dinners.FindAsync(request.Id);
             if (breakFast == null)
             {
                 throw new NotFoundException(nameof(Dinner), request.Id);
             }
-            if(breakFast.Img is not null)
+
+            if(breakFast.ImgFileName is not null)
             {
-                _deleteImg.Delete_Img(breakFast.Img);
+                _deleteImg.Delete_Img(breakFast.ImgFileName);
             }
+
             _applicationDbContext.Dinners.Remove(breakFast);
             await _applicationDbContext.SaveChangesAsync();
             return true;

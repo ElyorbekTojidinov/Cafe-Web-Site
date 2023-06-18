@@ -11,8 +11,8 @@ namespace Application.UseCases.Dinners.Commands
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public IFormFile Img { get; set; }
-        public string ImgName { get; set; }
+        public IFormFile ImgFile { get; set; }
+        public string ImgFileName { get; set; }
         public double Price { get; set; }
         public int Rewievs { get; set; }
         public string Quality { get; set; }
@@ -36,14 +36,14 @@ namespace Application.UseCases.Dinners.Commands
                 throw new NotFoundException(nameof(Dinner), request.Id);
             }
 
-            string ImgSource = request.ImgName;
-            if (request.Img != null)
+            string ImgSource = request.ImgFileName;
+            if (request.ImgFile != null)
             {
-                ImgSource = _saveImg.SaveImage(request.Img);
+                ImgSource = _saveImg.SaveImage(request.ImgFile);
             }
 
             breakFast.Name = request.Name;
-            breakFast.Img = ImgSource;
+            breakFast.ImgFileName = ImgSource;
             breakFast.Price = request.Price;
             breakFast.Rewievs = request.Rewievs;
             breakFast.Quality = request.Quality;

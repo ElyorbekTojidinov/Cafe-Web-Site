@@ -31,7 +31,7 @@ namespace Application.UseCases.BreakFasts.Commands
             var breakFast = new BreakFast
             {
                 Name = request.Name,
-                ImgFileName = _saveImg.SaveImage(request.Img),
+                ImgFileName = _saveImg.SaveImage(request.ImgFile),
                 Price = request.Price,
                 Rewievs = request.Rewievs,
                 Quality = request.Quality

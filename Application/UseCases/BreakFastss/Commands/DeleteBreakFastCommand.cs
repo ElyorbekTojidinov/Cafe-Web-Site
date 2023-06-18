@@ -23,12 +23,13 @@ namespace Application.UseCases.BreakFasts.Commands
 
         public async Task<bool> Handle(DeleteBreakFastCommand request, CancellationToken cancellationToken)
         {
-            BreakFast breakFast = await _applicationDbContext.BreakFasts.FindAsync(request.Id);
+            BreakFast? breakFast = await _applicationDbContext.BreakFasts.FindAsync(request.Id);
            
             if (breakFast == null)
             {
                 throw new NotFoundException(nameof(BreakFasts), request.Id);
             }
+
             if (breakFast.ImgFileName is not null)
             {
                 _deleteImg.Delete_Img(breakFast.ImgFileName);
