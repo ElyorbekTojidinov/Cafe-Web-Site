@@ -7,6 +7,7 @@ namespace Application.UseCases.Dinners.Commands
 {
     public class CreateDinnerCommand : IRequest<Guid>
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public IFormFile ImgFile { get; set; }
         public double Price { get; set; }

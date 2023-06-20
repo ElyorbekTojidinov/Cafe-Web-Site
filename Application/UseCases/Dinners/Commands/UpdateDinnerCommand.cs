@@ -30,8 +30,8 @@ namespace Application.UseCases.Dinners.Commands
 
         public async Task<Guid> Handle(UpdateDinnerCommand request, CancellationToken cancellationToken)
         {
-            var breakFast = await _context.Dinners.FindAsync(request.Id);
-            if (breakFast != null)
+            var dinner = await _context.Dinners.FindAsync(request.Id);
+            if (dinner == null)
             {
                 throw new NotFoundException(nameof(Dinner), request.Id);
             }
@@ -41,16 +41,16 @@ namespace Application.UseCases.Dinners.Commands
             {
                 ImgSource = _saveImg.SaveImage(request.ImgFile);
             }
-
-            breakFast.Name = request.Name;
-            breakFast.ImgFileName = ImgSource;
-            breakFast.Price = request.Price;
-            breakFast.Rewievs = request.Rewievs;
-            breakFast.Quality = request.Quality;
+            dinner.Id = request.Id;
+            dinner.Name = request.Name;
+            dinner.ImgFileName = ImgSource;
+            dinner.Price = request.Price;
+            dinner.Rewievs = request.Rewievs;
+            dinner.Quality = request.Quality;
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return breakFast.Id;
+            return dinner.Id;
         }
     }
 }

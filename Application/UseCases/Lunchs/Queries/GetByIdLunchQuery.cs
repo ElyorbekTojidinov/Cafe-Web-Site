@@ -26,7 +26,7 @@ namespace Application.UseCases.Lunchs.Queries
 
         public async Task<LunchGetDto> Handle(GetByIdLunchQuery request, CancellationToken cancellationToken)
         {
-            var result = _context.Lunchs.FindAsync(request.Id);
+            var result = _context.Lunchs.FirstOrDefault(x=> x.Id == request.Id);
             if (result == null)
             {
                 throw new NotFoundException(nameof(Lunch), request.Id);

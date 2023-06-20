@@ -30,8 +30,8 @@ namespace Application.UseCases.Lunchs.Command
 
         public async Task<Guid> Handle(UpdateLunchCammand request, CancellationToken cancellationToken)
         {
-            var lunch = await _context.Lunchs.FindAsync(request.Id);
-            if (lunch != null)
+            Lunch? lunch = _context.Lunchs.FirstOrDefault(x=> x.Id == request.Id);
+            if (lunch == null)
             {
                 throw new NotFoundException(nameof(Lunch), request.Id);
             }
@@ -41,7 +41,7 @@ namespace Application.UseCases.Lunchs.Command
             {
                 ImgSource = _saveImg.SaveImage(request.ImgFile);
             }
-
+            lunch.Id = request.Id;
             lunch.Name = request.Name;
             lunch.ImgFileName = ImgSource;
             lunch.Price = request.Price;

@@ -8,8 +8,9 @@ namespace Application.UseCases.Lunchs.Command
 
     public class CreateLunchCommand : IRequest<Guid>
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public IFormFile Img { get; set; }
+        public IFormFile ImgFile { get; set; }
         public double Price { get; set; }
         public int Rewievs { get; set; }
         public string Quality { get; set; }
@@ -18,12 +19,10 @@ namespace Application.UseCases.Lunchs.Command
     public class CreateLunchCommandHandler : IRequestHandler<CreateLunchCommand, Guid>
     {
         private readonly IApplicationDbContext _context;
-        private readonly IMediator _mediator;
         private readonly ISaveImg _saveImg;
-        public CreateLunchCommandHandler(IApplicationDbContext context, IMediator mediator, ISaveImg saveImg)
+        public CreateLunchCommandHandler(IApplicationDbContext context, ISaveImg saveImg)
         {
             _context = context;
-            _mediator = mediator;
             _saveImg = saveImg;
         }
 
@@ -31,8 +30,9 @@ namespace Application.UseCases.Lunchs.Command
         {
             var lunch = new Lunch
             {
+                Id = request.Id,
                 Name = request.Name,
-                ImgFileName = _saveImg.SaveImage(request.Img),
+                ImgFileName = _saveImg.SaveImage(request.ImgFile),
                 Price = request.Price,
                 Rewievs = request.Rewievs,
                 Quality = request.Quality
