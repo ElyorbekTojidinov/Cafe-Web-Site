@@ -7,6 +7,7 @@ namespace Application.UseCases.BreakFasts.Commands
 {
     public class CreateBreakeFastCommand : IRequest<Guid>
     {
+        public Guid Id { get; set; }    
         public string Name { get; set; }
         public IFormFile ImgFile { get; set; }
         public double Price { get; set; }
@@ -30,6 +31,7 @@ namespace Application.UseCases.BreakFasts.Commands
         {
             var breakFast = new BreakFast
             {
+                Id = request.Id,
                 Name = request.Name,
                 ImgFileName = _saveImg.SaveImage(request.ImgFile),
                 Price = request.Price,

@@ -1,67 +1,80 @@
 ﻿using Application.Common.Models;
 using Application.UseCases.BreakFasts.Commands;
 using Application.UseCases.BreakFasts.Queries;
-using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.Extensions.Hosting;
 
 namespace KafeWebSite.Controllers
 {
-
+    [Authorize(Roles = "admin")]
     public class BreakFastController : BaseController
     {
         [HttpGet]
+        [EnableRateLimiting("TokenBucketLimiter")]
         public async ValueTask<IActionResult> GetAllBreakFast()
         {
-          var breakFast =  _mediatr.Send(new GetAllBreakFastQuery());    
+            IQueryable<BreakFastGetDto> breakFast = await _mediatr.Send(new GetAllBreakFastQuery());
             return View(breakFast);
         }
 
         [HttpGet]
-        [EnableRateLimiting("TokenBucketLimiter")]
         public async ValueTask<IActionResult> CreateBreakFast()
         {
             return View();
         }
 
         [HttpPost]
-        public async ValueTask<IActionResult> CreateBreakFast(CreateBreakeFastCommand createBreakeFast)
+        public async ValueTask<IActionResult> CreateBreakFast([FromForm] CreateBreakeFastCommand createBreakeFast)
         {
-           var breakFast = await _mediatr.Send(new CreateBreakeFastCommand());
-            return RedirectToAction("ViewBreakFast", breakFast);
+            var breakFast = await _mediatr.Send(createBreakeFast);
+            BreakFastGetDto breakFast1 = await _mediatr.Send(new GetByIdBreakFastQuery() { Id = breakFast });
+            return View("ViewBreakFast", breakFast1);
         }
 
         [HttpGet]
-        public async ValueTask<IActionResult> UpdateBreakFast()
+        public async ValueTask<IActionResult> UpdateBreakFast(Guid id)
         {
-            return View();
+            BreakFastGetDto updateBreakFast = await _mediatr.Send(new GetByIdBreakFastQuery() { Id = id });
+            UpdateBreakFastCommand command = new UpdateBreakFastCommand()
+            {
+                Id = updateBreakFast.Id,
+                Name = updateBreakFast.Name,
+                ImgFileName = updateBreakFast.ImgFileName,
+                Price = updateBreakFast.Price,
+                Rewievs = updateBreakFast.Rewievs,
+                Quality = updateBreakFast.Quality
+            };
+            return View(command);
         }
 
         [HttpPost]
-        public async ValueTask<IActionResult> UpdateBreakFast(UpdateBreakFastCommand updateBreakFast)
+        public async ValueTask<IActionResult> UpdateBreakFast([FromForm] UpdateBreakFastCommand updateBreakFast)
         {
-          var breakFast =   await _mediatr.Send(new UpdateBreakFastCommand());
-            return RedirectToAction("ViewBreakFast", breakFast);
+
+            var breakFast = await _mediatr.Send(updateBreakFast);
+            BreakFastGetDto breakFastGet = await _mediatr.Send(new GetByIdBreakFastQuery() { Id = breakFast});
+            return RedirectToAction("ViewBreakFast", breakFastGet);
         }
 
-        [HttpGet]
-        public async ValueTask<IActionResult> DeleteBreakFast()
+      
+        public async ValueTask<IActionResult> DeleteBreakFast(Guid id)
         {
-            return View();
-        }
-
-        public async ValueTask<IActionResult> DeleteBreakFast(DeleteBreakFastCommand deleteBreakFast)
-        {
-            await _mediatr.Send(new DeleteBreakFastCommand());
-            return RedirectToAction(nameof(GetAllBreakFast));
+            BreakFastGetDto deleteBreakFast = await _mediatr.Send(new GetByIdBreakFastQuery() { Id = id });
+            DeleteBreakFastCommand command = new DeleteBreakFastCommand()
+            {
+                Id = deleteBreakFast.Id,
+            };
+            var res = await _mediatr.Send(command);
+            return RedirectToAction("GetAllBreakFast");
         }
 
         public async ValueTask<IActionResult> ViewBreakFast(Guid id)
         {
-           BreakFastGetDto breakFast = await _mediatr.Send(new GetByIdBreakFastQuery());
+            BreakFastGetDto breakFast = await _mediatr.Send(new GetByIdBreakFastQuery() { Id = id });
+            //return View(breakFast);
             return View("ViewBreakFast", breakFast);
         }
-        
+
     }
 }
