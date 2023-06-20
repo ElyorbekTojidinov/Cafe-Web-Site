@@ -25,7 +25,7 @@ namespace Application.UseCases.BreakFasts.Queries
 
         public async Task<BreakFastGetDto> Handle(GetByIdBreakFastQuery request, CancellationToken cancellationToken)
         {
-            var result = _context.BreakFasts.FindAsync(request.Id);
+             BreakFast? result = _context.BreakFasts.FirstOrDefault(res=> res.Id == request.Id);
             if (result == null)
             {
                 throw new NotFoundException(nameof(BreakFast), request.Id);

@@ -9,7 +9,7 @@
 <h3 class="text-center">Add new break fast</h3>
 <hr />
 
-<form asp-controller="BreakFast" asp-action="CreateBreakFast" method="post">
+<form asp-controller="BreakFast" asp-action="CreateBreakFast" enctype="multipart/form-data" method="post">
     <div class="container mt-3 custom-input">
         <label asp-for="Name" class="form-label">Name </label>
         <div class="input-group mb-3">
@@ -19,19 +19,19 @@
 
         <label asp-for="Price" class="form-label">Price </label>
         <div class="input-group mb-3">
-            <textarea asp-for="Price" class="form-control" rows="5"></textarea>
+            <input asp-for="Price" class="form-control" rows="5"></input>
         </div>
         <span asp-validation-for="Price" class="text-danger"></span><br>
 
         <label asp-for="Rewievs" class="form-label">Rewievs </label>
         <div class="input-group mb-3">
-            <textarea asp-for="Rewievs" class="form-control" rows="5"></textarea>
+            <input asp-for="Rewievs" class="form-control" rows="5"></input>
         </div>
         <span asp-validation-for="Rewievs" class="text-danger"></span><br>
 
         <label asp-for="Quality" class="form-label">Quality </label>
         <div class="input-group mb-3">
-            <textarea asp-for="Quality" class="form-control" rows="5"></textarea>
+            <input asp-for="Quality" class="form-control" rows="5"></input>
         </div>
         <span asp-validation-for="Quality" class="text-danger"></span><br>
 

@@ -8,5 +8,8 @@
         public double Price { get; set; }
         public int Rewievs { get; set; }
         public string Quality { get; set; }
+
+
+       
     }
 }

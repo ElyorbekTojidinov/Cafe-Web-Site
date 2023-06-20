@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KafeWebSite.Controllers
 {
-
+    [Authorize(Roles = "admin")]
     public class AdminPageController : Controller
     {
         private readonly ILogger<KitchenController> _logger;

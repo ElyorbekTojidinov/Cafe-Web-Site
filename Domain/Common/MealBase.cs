@@ -10,6 +10,7 @@ public class MealBase
 
     [Required]
     [Column("name")]
+
     public string Name { get; set; }
 
     [Required]

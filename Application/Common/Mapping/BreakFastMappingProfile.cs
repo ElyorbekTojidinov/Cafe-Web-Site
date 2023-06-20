@@ -8,7 +8,8 @@ namespace Application.Common.Mapping
     {
         public BreakFastMappingProfile()
         {
-            CreateMap<BreakFast, LunchGetDto>().ReverseMap();
+            CreateMap<BreakFast, BreakFastGetDto>();
+            CreateMap<BreakFastGetDto, BreakFast>();
         }
     }
 }

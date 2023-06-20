@@ -30,7 +30,7 @@ namespace Application.UseCases.BreakFasts.Commands
         public async Task<Guid> Handle(UpdateBreakFastCommand request, CancellationToken cancellationToken)
         {
             BreakFast breakFast = await _context.BreakFasts.FindAsync(request.Id);
-            if (breakFast != null)
+            if (breakFast == null)
             {
                 throw new NotFoundException(nameof(BreakFast), request.Id);
             }

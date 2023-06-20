@@ -1,17 +1,15 @@
 ﻿@using Application.Common.Models;
 
-@{
-    Layout = "_Layout";
-}
-@model List<BreakFastGetDto>
+
+@model IQueryable<BreakFastGetDto>
 
 <h3 class="text-center">All Break Fasts</h3>
 <hr />
 
-<div class="custom-cards">
+<div class="custom-cards " >
 
     @{
-        if (Model.Count == 0)
+        if (Model.Count() == 0)
         {
             <h2>There is no post yet...</h2>
         }
@@ -19,7 +17,7 @@
 
     @foreach (var post in Model)
     {
-        string imagePath = "~/" + post.ImgFileName;
+        string imagePath = "/images/" + post.ImgFileName;
         string body = @post.Name;
         if (body.Length > 60)
         {
@@ -27,9 +25,9 @@
         }
 
         <div class="col-lg-4 col-md-6 col-12">
-            <div class="menu-thumb">
-                <img src="@imagePath" class="img-fluid menu-image" alt="">
+            <div class="menu-thumb p-3" onclick="`post(${String(@post.Name)}`">
 
+                <a href="@Url.Action("ViewBreakFast" , post)"><img src="@imagePath" class="img-fluid menu-image" alt="img"></a>
                 <div class="menu-info d-flex flex-wrap align-items-center">
                     <h4 class="mb-0">@post.Name</h4>
 
@@ -46,7 +44,7 @@
                             <i class="bi-star reviews-icon"></i>
                         </div>
 
-                        <p class="reviews-text mb-0 ms-4">@post.Rewievs</p>
+                        <p class="reviews-text mb-0 ms-4">@post.Rewievs, Rewievs</p>
                     </div>
                 </div>
             </div>
