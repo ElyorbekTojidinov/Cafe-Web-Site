@@ -26,7 +26,7 @@ namespace Application.UseCases.Dinners.Queries
 
         public async Task<DinnerGetDto> Handle(GetByIdDinnerQuery request, CancellationToken cancellationToken)
         {
-            var result = _context.Dinners.FindAsync(request.Id);
+            Dinner? result = _context.Dinners.FirstOrDefault(x=> x.Id == request.Id);
             if (result == null)
             {
                 throw new NotFoundException(nameof(Dinner), request.Id);

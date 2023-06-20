@@ -1,0 +1,52 @@
+﻿@using Application.Common.Models;
+
+@{
+    Layout = "_Layout";
+}
+
+@model DinnerGetDto
+@{
+    string imagePath = "";
+    if (Model is not null)
+    {
+        imagePath = "/images/" + Model.ImgFileName;
+    }
+}
+<a asp-controller="Dinner" asp-action="GetAllDinner" class="btn btn-secondary back"><i class="las la-arrow-left"></i> Back to home</a>
+<hr />
+
+<div class="col-lg-4 col-md-6 col-12">
+    <div class="menu-thumb">
+        <img src="@imagePath" class="img-fluid menu-image" alt="">
+
+        <div class="menu-info d-flex flex-wrap align-items-center">
+            <h4 class="mb-0">@Model.Name</h4>
+
+            <span class="price-tag bg-white shadow-lg ms-4"><small>$</small>@Model.Price</span>
+
+            <div class="d-flex flex-wrap align-items-center w-100 mt-2">
+                <h6 class="reviews-text mb-0 me-3">@Model.Quality</h6>
+
+                <div class="reviews-stars">
+                    <i class="bi-star-fill reviews-icon"></i>
+                    <i class="bi-star-fill reviews-icon"></i>
+                    <i class="bi-star-fill reviews-icon"></i>
+                    <i class="bi-star-fill reviews-icon"></i>
+                    <i class="bi-star reviews-icon"></i>
+                </div>
+
+                <p class="reviews-text mb-0 ms-4">@Model.Rewievs</p>
+            </div>
+            <div>
+                <small class="text-muted"></small>
+                <div class="la-group">
+                    <a asp-controller="Dinner" asp-action="UpdateDinner" asp-route-id="@Model.Id" 
+                            class="btn btn-primary mx-2"><i class="las la-edit"></i>Edit</a>
+                    <a asp-controller="Dinner" asp-action="DeleteDinner" asp-route-id="@Model.Id"
+                            onclick="return confirm('Are you sure delete this post?');" class="btn btn-danger mx-2">
+                            <i class="las la-trash"></i>Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

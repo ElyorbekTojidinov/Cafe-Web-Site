@@ -7,7 +7,7 @@ namespace KafeWebSite.Controllers
 
     //[Route("[controller]")]
     //[ApiController]
-    //[Authorize]
+    [Authorize]
     public class BaseController : Controller
     {
         protected IMediator _mediatr => HttpContext.RequestServices.GetRequiredService<IMediator>();

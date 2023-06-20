@@ -1,0 +1,54 @@
+﻿@using Application.Common.Models;
+
+
+@model IQueryable<LunchGetDto>
+
+<h3 class="text-center">All Dinner</h3>
+<hr />
+
+<div class="custom-cards ">
+
+    @{
+        if (Model.Count() == 0)
+        {
+            <h2>There is no post yet...</h2>
+        }
+    }
+
+    @foreach (var post in Model)
+    {
+        string imagePath = "/images/" + post.ImgFileName;
+        string body = @post.Name;
+        if (body.Length > 60)
+        {
+            body = body.Substring(0, 60);
+        }
+
+        <div class="col-lg-4 col-md-6 col-12">
+            <div class="menu-thumb p-3" onclick="`post(${String(@post.Name)}`">
+
+                <a href="@Url.Action("ViewLunch" , post)"><img src="@imagePath" class="img-fluid menu-image" alt="img"></a>
+                <div class="menu-info d-flex flex-wrap align-items-center">
+                    <h4 class="mb-0">@post.Name</h4>
+
+                    <span class="price-tag bg-white shadow-lg ms-4"><small>$</small>@post.Price</span>
+
+                    <div class="d-flex flex-wrap align-items-center w-100 mt-2">
+                        <h6 class="reviews-text mb-0 me-3">@post.Quality</h6>
+
+                        <div class="reviews-stars">
+                            <i class="bi-star-fill reviews-icon"></i>
+                            <i class="bi-star-fill reviews-icon"></i>
+                            <i class="bi-star-fill reviews-icon"></i>
+                            <i class="bi-star-fill reviews-icon"></i>
+                            <i class="bi-star reviews-icon"></i>
+                        </div>
+
+                        <p class="reviews-text mb-0 ms-4">@post.Rewievs, Rewievs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

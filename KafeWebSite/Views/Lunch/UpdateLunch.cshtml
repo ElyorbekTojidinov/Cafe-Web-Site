@@ -1,0 +1,63 @@
+﻿@using Application.UseCases.Lunchs.Command;
+
+@{
+    Layout = "_Layout";
+}
+@model UpdateLunchCammand
+<h3 class="text-center">Update lunch </h3>
+<hr />
+@{
+    string imagePath = "";
+    if (Model is not null)
+    {
+        imagePath = "/images/" + Model.ImgFileName;
+    }
+}
+<form asp-controller="Lunch" asp-action="UpdateLunch" enctype="multipart/form-data" method="post">
+
+    <div class="container mt-3 custom-input">
+        <label asp-for="Name" class="form-label">Name</label>
+        <div class="input-group mb-3">
+            <input asp-for="Name" type="text" class="form-control" value="@Model.Name">
+        </div>
+        <span asp-validation-for="Name" class="text-danger"></span><br>
+
+        <label asp-for="Price" class="form-label">Price</label>
+        <div class="input-group mb-3">
+            <input asp-for="Price" type="text" class="form-control" value="@Model.Price">
+        </div>
+        <span asp-validation-for="Price" class="text-danger"></span><br>
+
+        <label asp-for="Rewievs" class="form-label">Rewievs</label>
+        <div class="input-group mb-3">
+            <input asp-for="Rewievs" type="text" class="form-control" value="@Model.Rewievs">
+        </div>
+        <span asp-validation-for="Rewievs" class="text-danger"></span><br>
+
+        <label asp-for="Quality" class="form-label">Quality</label>
+        <div class="input-group mb-3">
+            <input asp-for="Quality" type="text" class="form-control" value="@Model.Quality">
+        </div>
+        <span asp-validation-for="Quality" class="text-danger"></span><br>
+
+
+        <input hidden asp-for="Id" />
+        <input hidden asp-for="ImgFileName" />
+
+        <label asp-for="ImgFileName" class="form-label">Post photo</label>
+        <div class="input-group mb-3">
+            <img src="@imagePath" asp-append-version="true" style="width: 200px; heigth: 200px" alt="">
+        </div>
+
+        <label asp-for="ImgFile" class="form-label">Post photo</label>
+        <div class="input-group mb-3">
+            <input asp-for="ImgFile" accept="image/*" type="file" class="form-control">
+        </div>
+    </div>
+
+
+    <div class="button-group">
+        <a class="btn btn-dark">Cancel</a>
+        <button type="submit" class="btn btn-success">Save</button>
+    </div>
+</form>
