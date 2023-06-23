@@ -12,6 +12,15 @@ namespace KafeWebSite
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = builder.Configuration["Authentication:Google:client_id"];
+                options.ClientSecret = builder.Configuration["Authentication:Google:client_secret"];
+            });
+
+
+
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
           
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
